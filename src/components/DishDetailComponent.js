@@ -22,7 +22,7 @@ const minLength = len => val => val && val.length >= len;
         );
     }
 
-    function RenderComments({comments, dishId, postComment}) {
+    function RenderComments({comments, addComment, dishId}) {
         if (comments == null) return <div></div>
         return (
             <div className="col-12 col-md-5 m-1">
@@ -37,7 +37,7 @@ const minLength = len => val => val && val.length >= len;
                         );
                     })}
                 </ul>
-                    <CommentForm dishId={dishId} postComment={postComment} />
+                    <CommentForm dishId={dishId} addComment={addComment} />
             </div>
         );
     }
@@ -63,7 +63,8 @@ const minLength = len => val => val && val.length >= len;
                 </div>
                 <div className="row"> 
                     <RenderDish dish = {props.dish}/>
-                    <RenderComments comments = {props.comments} dishId = {props.dish.id} postComment={props.postComment}/>
+                    <RenderComments comments = {props.comments} dishId = {props.dish.id} addComment={props.addComment}
+                    />
                 </div>
             </div>
         );
@@ -79,7 +80,7 @@ const minLength = len => val => val && val.length >= len;
             }
     
             this.toggleModal = this.toggleModal.bind(this);
-            this.handleComment = this.handleComment.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
         }
     
         toggleModal() {
@@ -88,9 +89,9 @@ const minLength = len => val => val && val.length >= len;
             });
         }
     
-        handleComment(values) {
+        handleSubmit(values) {
             this.toggleModal();
-            this.props.postComment(
+            this.props.addComment(
                 this.props.dishId,
                 values.rating,
                 values.author,
