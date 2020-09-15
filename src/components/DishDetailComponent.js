@@ -3,6 +3,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbIte
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
     
 const required = val => val && val.length;
 const maxLength = len => val => !val || val.length <= len;
@@ -12,7 +13,7 @@ const minLength = len => val => val && val.length >= len;
         return(
             <div className="col-12 col-md-5 m-1">
                 <Card>
-                    <CardImg top src={dish.image} alt={dish.name} />
+                    <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                     <CardBody>
                         <CardTitle>{dish.name}</CardTitle>
                         <CardText>{dish.description}</CardText>
@@ -22,7 +23,7 @@ const minLength = len => val => val && val.length >= len;
         );
     }
 
-    function RenderComments({comments, addComment, dishId}) {
+    function RenderComments({comments, postComment, dishId}) {
         if (comments == null) return <div></div>
         return (
             <div className="col-12 col-md-5 m-1">
@@ -37,7 +38,7 @@ const minLength = len => val => val && val.length >= len;
                         );
                     })}
                 </ul>
-                    <CommentForm dishId={dishId} addComment={addComment} />
+                    <CommentForm dishId={dishId} postComment={postComment} />
             </div>
         );
     }
@@ -81,7 +82,7 @@ const minLength = len => val => val && val.length >= len;
                 </div>
                 <div className="row"> 
                     <RenderDish dish = {props.dish}/>
-                    <RenderComments comments = {props.comments} dishId = {props.dish.id} addComment={props.addComment}
+                    <RenderComments comments = {props.comments} dishId = {props.dish.id} postComment={props.postComment}
                     />
                 </div>
             </div>
@@ -109,7 +110,7 @@ const minLength = len => val => val && val.length >= len;
     
         handleSubmit(values) {
             this.toggleModal();
-            this.props.addComment(
+            this.props.postComment(
                 this.props.dishId,
                 values.rating,
                 values.author,
